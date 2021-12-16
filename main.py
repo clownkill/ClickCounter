@@ -5,9 +5,6 @@ from dotenv import load_dotenv
 from urllib.parse import urlparse
 
 
-load_dotenv()
-
-
 def shorten_link(token, url):
     api_url = 'https://api-ssl.bitly.com/v4/shorten'
     headers = {
@@ -55,12 +52,11 @@ def is_bitlink(url, token):
 
 
 def main():
+    load_dotenv()
     token = os.environ['BITLY_TOKEN']
-    # url = input('Введите ссылку:')
     parser = argparse.ArgumentParser(description='Сокращает ссылку, либо выводит количество кликов по ссылке')
     parser.add_argument('url_link', help='Ссылка для обработки')
     url = parser.parse_args().url_link
-    print(url)
     if is_bitlink(url, token):
         try:
             count = count_clicks(token, url)
